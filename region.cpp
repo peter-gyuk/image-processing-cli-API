@@ -10,10 +10,17 @@ void region::setArea(const set<pixel> &value)
     this->_area = value;
 }
 
-region::region()
+void region::addPixel(const pixel &p)
 {
-
+    _area.insert(p);
 }
+
+bool region::isEmpty()
+{
+    return _area.empty();
+}
+
+region::region(){}
 
 region::region(set<pixel> area)
 {

@@ -11,6 +11,8 @@ public:
     pixel(int x = 0, int y = 0);
     int x() const;
     int y() const;
+
+    bool operator<(const pixel& p) const;
 };
 
 #endif // PIXEL_H

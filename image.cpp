@@ -24,6 +24,5 @@ bool image::display_image(string window_name)
 
     namedWindow(window_name);
     imshow(window_name, img);
-    //waitKey(0);
     return true;
 }

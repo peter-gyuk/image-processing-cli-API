@@ -15,8 +15,12 @@ private:
 public:
     region();
     region(set<pixel> area);
+
     set<pixel> getArea() const;
     void setArea(const set<pixel> &value);
+
+    void addPixel(const pixel &p);
+    bool isEmpty();
 };
 
 #endif // REGION_H

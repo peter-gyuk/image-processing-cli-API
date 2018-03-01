@@ -29,5 +29,5 @@ void image_process::display_pixels(region area)
 
 void image_process::save_pixels(region area, string filename)
 {
-    //TODO
+    //imwrite(filename, img);
 }
