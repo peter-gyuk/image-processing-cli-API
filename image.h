@@ -18,6 +18,7 @@ public:
     bool display_image(string window_name = "image");
     Vec3b pixelColor(pixel p);
     void display_pixels(region area);
+    void save_pixels(region area, string filename);
     int width();
     int height();
 

@@ -38,7 +38,3 @@ region image_process::find_perimeter(region area)
     return area;
 }
 
-void image_process::save_pixels(region area, string filename)
-{
-    //imwrite(filename, img);
-}

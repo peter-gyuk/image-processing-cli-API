@@ -51,6 +51,21 @@ void image::display_pixels(region area)
     imshow("2", img);
 }
 
+
+void image::save_pixels(region area, string filename)
+{
+    Mat img2=img;
+
+    set<pixel> pixels=area.getArea();
+    for (auto i=pixels.begin();i!=pixels.end();++i){
+        img2.at<cv::Vec3b>(i->x(),i->y())[0]=0;
+        img2.at<cv::Vec3b>(i->x(),i->y())[1]=0;
+        img2.at<cv::Vec3b>(i->x(),i->y())[2]=0;
+    }
+
+    imwrite(filename, img2);
+}
+
 int image::width()
 {
     return img.cols;

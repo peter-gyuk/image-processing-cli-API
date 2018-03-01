@@ -55,7 +55,7 @@ int main(int argc, char *argv[])
             if (i+1>=argc){
                 cout<<"Not enough parameter for SAVE_PIXELS (usage: SAVE_PIXELS filename)"<<endl;
             }
-            image_process::save_pixels(tmp,argv[i++]);
+            img.save_pixels(tmp,argv[i+1]);
 
         }
     }
