@@ -33,8 +33,38 @@ region image_process::find_region(image img, const pixel &location, int sensitiv
 
 region image_process::find_perimeter(region area)
 {
-    //TODO: The algorithm
+    set<pixel> reg=area.getArea();
+    region perim;
 
-    return area;
+    //Sides
+    pixel prev=pixel(-1,-1);
+    for (auto i=reg.begin();i!=reg.end();++i){
+        if (i->x()!=prev.x()){
+            perim.addPixel(*i);
+            perim.addPixel(prev);
+        }
+        prev=*i;
+    }
+
+    //Last row
+    for (auto i=reg.begin();i!=reg.end();++i){
+        if (i->x()==prev.x()){
+            perim.addPixel(*i);
+        }
+    }
+
+    //First row
+    auto i=reg.begin();
+    prev=*i;
+    perim.addPixel(prev);
+    ++i;
+    while (i!=reg.end() && i->x()==prev.x()){
+        perim.addPixel(*i);
+        prev=*i;
+        ++i;
+    }
+
+
+    return perim;
 }
 
