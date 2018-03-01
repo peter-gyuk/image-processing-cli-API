@@ -20,9 +20,12 @@ bool region::isEmpty()
     return _area.empty();
 }
 
-region::region(){}
+region::region(){
+}
 
 region::region(set<pixel> area)
 {
     this->_area=area;
 }
+
+

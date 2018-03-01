@@ -26,3 +26,37 @@ bool image::display_image(string window_name)
     imshow(window_name, img);
     return true;
 }
+
+
+Vec3b image::pixelColor(pixel p)
+{
+    Mat hsv;
+    cvtColor(img,hsv,cv::COLOR_RGB2HSV);
+    Vec3b c = hsv.at<Vec3b>(Point(p.y(),p.x()));
+    return c;
+}
+
+void image::display_pixels(region area)
+{
+    Mat img2=img;
+
+    set<pixel> pixels=area.getArea();
+    for (auto i=pixels.begin();i!=pixels.end();++i){
+        img2.at<cv::Vec3b>(i->x(),i->y())[0]=0;
+        img2.at<cv::Vec3b>(i->x(),i->y())[1]=0;
+        img2.at<cv::Vec3b>(i->x(),i->y())[2]=0;
+    }
+
+    namedWindow("2");
+    imshow("2", img);
+}
+
+int image::width()
+{
+    return img.cols;
+}
+
+int image::height()
+{
+    return img.rows;
+}

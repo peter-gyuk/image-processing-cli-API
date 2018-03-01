@@ -17,9 +17,9 @@ int main(int argc, char *argv[])
         cout<<"\t <operation> - list of operations with arguments"<<endl<<endl;
         cout<<"There are seversal operations that can be performed on the initial image consecutively:"<<endl;
         cout<<"FIND_REGION x y sens \t Finds a region of similar pixels starting from pixel (x,y) using the given sensitivity (sens)"<<endl;
-        cout<<"FIND_PERIMETER\t Finds the contiguous border pixels of the region"<<endl;
-        cout<<"DISPLAY_IMAGE\t Displays the input image"<<endl;
-        cout<<"DISPLAY_PIXELS\t Displays the image of the region after the previous operations on the initial image"<<endl;
+        cout<<"FIND_PERIMETER\t\t Finds the contiguous border pixels of the region"<<endl;
+        cout<<"DISPLAY_IMAGE\t\t Displays the input image"<<endl;
+        cout<<"DISPLAY_PIXELS\t\t Displays the image of the region after the previous operations on the initial image"<<endl;
         cout<<"SAVE_PIXELS filename \t Saves the image of the region after the previous operations on the initial image"<<endl;
         return -1;
     }
@@ -43,19 +43,19 @@ int main(int argc, char *argv[])
                 cout<<"Not enough parameter for FIND_REGION (usage: FIND_REGION x y sens)"<<endl;
             }
             //TODO: error handling
-            tmp=image_process::find_region(img,pixel(atoi(argv[++i]),atoi(argv[++i])),atoi(argv[++i]));
+            tmp=image_process::find_region(img,pixel(atoi(argv[i+1]),atoi(argv[i+2])),stod(argv[i+3]));
 
         } else if (strcmp(argv[i],"FIND_PERIMETER")==0){
             tmp=image_process::find_perimeter(tmp);
 
         } else if (strcmp(argv[i],"DISPLAY_PIXELS")==0){
-            image_process::display_pixels(tmp);
+            img.display_pixels(tmp);
 
         } else if (strcmp(argv[i],"SAVE_PIXELS")==0){
             if (i+1>=argc){
                 cout<<"Not enough parameter for SAVE_PIXELS (usage: SAVE_PIXELS filename)"<<endl;
             }
-            image_process::save_pixels(tmp,argv[++i]);
+            image_process::save_pixels(tmp,argv[i++]);
 
         }
     }
