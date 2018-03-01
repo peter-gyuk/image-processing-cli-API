@@ -1,5 +1,6 @@
 #include "image_process.h"
 
+//Calculate the color distance in hsv color space
 int image_process::distance (Vec3b a, Vec3b b){
     return min(abs(a(0)-b(0)),180-abs(a(0)-b(0)));
 }

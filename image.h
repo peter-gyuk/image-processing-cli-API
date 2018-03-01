@@ -12,8 +12,11 @@ class image
 {
 private:
     Mat img;
+
+    Mat overlay_region(region arena);
 public:
     image();
+
     bool load_image(string img_file);
     bool display_image(string window_name = "image");
     Vec3b pixelColor(pixel p);

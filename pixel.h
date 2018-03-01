@@ -5,7 +5,7 @@
 
 using namespace std;
 
-//Pixel class, were the coordinates are integer
+//Pixel class, were the coordinates are integer (could be template class later)
 class pixel{
 
 private:
@@ -19,6 +19,7 @@ public:
 
     bool operator<(const pixel& p) const;
     bool operator==(const pixel& p) const;
+
     pixel left(int step = 1);
     pixel right(int step = 1);
     pixel up(int step = 1);

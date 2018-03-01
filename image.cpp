@@ -36,7 +36,7 @@ Vec3b image::pixelColor(pixel p)
     return c;
 }
 
-void image::display_pixels(region area)
+Mat image::overlay_region(region area)
 {
     Mat img2=img;
 
@@ -47,21 +47,21 @@ void image::display_pixels(region area)
         img2.at<cv::Vec3b>(i->x(),i->y())[2]=0;
     }
 
-    namedWindow("2");
-    imshow("2", img);
+    return img2;
+}
+
+void image::display_pixels(region area)
+{
+    Mat img2=overlay_region(area);
+
+    namedWindow("DISPLAY_PIXELS");
+    imshow("DISPLAY_PIXELS", img2);
 }
 
 
 void image::save_pixels(region area, string filename)
 {
-    Mat img2=img;
-
-    set<pixel> pixels=area.getArea();
-    for (auto i=pixels.begin();i!=pixels.end();++i){
-        img2.at<cv::Vec3b>(i->x(),i->y())[0]=0;
-        img2.at<cv::Vec3b>(i->x(),i->y())[1]=0;
-        img2.at<cv::Vec3b>(i->x(),i->y())[2]=0;
-    }
+    Mat img2=overlay_region(area);
 
     imwrite(filename, img2);
 }
