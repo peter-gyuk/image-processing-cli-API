@@ -3,23 +3,23 @@ Image processing API with command line interface
 
 ## How to compile and execute
 The API is developed on Ubuntu 16.04 with cmake and opencv. In order to compile you should have these installed. Simply:
-'''
+```
 cmake.
 make
 ./ip_api
-'''
+```
 Example:
-'''
+```
 ./ip_api data/test1.png DISPLAY_IMAGE FIND_REGION 150 50 5 FIND_PERIMETER DISPLAY_PIXELS
-'''
+```
 
 ## How to use
-The image processing API has a command line interface with full functionality. For detailed information about the commands, just type 'ip_api --help'
+The image processing API has a command line interface with full functionality. For detailed information about the commands, just type `ip_api --help`
 
 usage: 
-'''
+```
 ip_api input_image <operation>
-'''
+```
 The input_image is necessary, this is the initial image for which the list of operations should be performed.
 
 There are several operations that can be performed on the initial image consecutively:
@@ -38,15 +38,15 @@ There are several operations that can be performed on the initial image consecut
 
 ## Testing
 
-To run test, simply type ctest or make test after compiling.
+To run test, simply type `ctest` or `make test` after compiling.
 
 New tests can be added to the CMakeLists.txt file.
 
 *Smoothing* - The results of smoothing can be easily seen with running a smooth perimeter finder on test3.png with 0.1 and then 0.05 tolerance. The latter totally removes the small object inside:
-'''
+```
 ip_api data/test3.png FIND_REGION 100 100 1 FIND_SMOOTH_PERIMETER 0.2 SAVE_PIXELS out_smooth_2.png
 ip_api data/test3.png FIND_REGION 100 100 1 FIND_SMOOTH_PERIMETER 0.05 SAVE_PIXELS out_smooth_05.png
-'''
+```
 
 ## Classes
 
@@ -60,11 +60,11 @@ ip_api data/test3.png FIND_REGION 100 100 1 FIND_SMOOTH_PERIMETER 0.05 SAVE_PIXE
 
 **region** - a set of pixels and functions
 
-## References
+## References and making choices
 
-For the backtracking algorithm to find a region, I haven't used any references, implemented it on my own. The recursive method is not very effective, it can be later improved using dynamic programming.
+For the backtracking algorithm to find a region starting from the given middle point, I haven't used any references, I implemented it on my own. The recursive method is not very effective, it can be later improved using dynamic programming.
 
-For finding perimeter, the Bug Following algorithm was used with backtracking, as an own implementation.
+For finding perimeter, the Bug Following algorithm was used with backtracking, as an own implementation. I tried to use algorithms that I have learned and already used before. These are maybe less effective (other edge detection algorithms could be used, like Canny), but the implementation was more straightforward and also avoided using complex libraries.
 
-For smoothing, I also implemented an own discrete convolution, the approximated 5x5 Gaussian kernel is taken from here:
+For smoothing, I also implemented an own 2D discrete convolution. I used Gaussian blur as a basic solution, where I chose the 5x5 kernel. Other methods, such as spline, curve fitting could be used, but I have the experience with this method. The approximated 5x5 Gaussian kernel is taken from here:
 [https://homepages.inf.ed.ac.uk/rbf/HIPR2/gsmooth.htm](https://homepages.inf.ed.ac.uk/rbf/HIPR2/gsmooth.htm)
