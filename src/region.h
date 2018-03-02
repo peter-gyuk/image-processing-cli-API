@@ -24,7 +24,7 @@ public:
 
     bool containsPixel(const pixel& p);
     region perimeter();
-    region smooth(double smooth_tol=0.1);
+    region smooth(double smooth_tol);
 
     void addPixel(const pixel &p);
     bool isEmpty();

@@ -18,10 +18,10 @@ private:
 public:
     image(){}
 
-    bool load_image(string img_file);
-    bool display_image(string window_name = "DISPLAY_IMAGE");
-    void display_pixels(region area, string window_name = "DISPLAY_PIXELS");
-    void save_pixels(region area, string filename);
+    bool loadImage(const string &img_file);
+    bool displayImage(const string &window_name = "DISPLAY_IMAGE");
+    void displayPixels(region area, const string &window_name = "DISPLAY_PIXELS");
+    void savePixels(region area, const string &filename);
 
     Vec3b pixelColor(pixel p);
     int width();

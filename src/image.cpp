@@ -16,7 +16,7 @@ Mat image::overlay_region(region area)
 }
 
 //---Load image from file
-bool image::load_image(string img_file)
+bool image::loadImage(const string &img_file)
 {
     img = imread(img_file);
 
@@ -28,7 +28,7 @@ bool image::load_image(string img_file)
 }
 
 //---Diplay loaded image
-bool image::display_image(string window_name)
+bool image::displayImage(const string &window_name)
 {
     if (img.empty()){
         return false;
@@ -49,7 +49,7 @@ Vec3b image::pixelColor(pixel p)
 }
 
 //--Displays the region over the image
-void image::display_pixels(region area, string window_name)
+void image::displayPixels(region area, const string &window_name)
 {
     Mat img2=overlay_region(area);
 
@@ -58,7 +58,7 @@ void image::display_pixels(region area, string window_name)
 }
 
 //--Saves the region over the image
-void image::save_pixels(region area, string filename)
+void image::savePixels(region area, const string &filename)
 {
     Mat img2=overlay_region(area);
 

@@ -59,19 +59,18 @@ int cl_interface::clParser(int argc, char *argv[]){
         return 0;
     }
 
+    image_process ip;
+
     //Input image
-    image img;
-    if (!img.load_image(argv[1])){
+    if (!ip.loadImage(argv[1])){
         cout<<"No image data. Please use a correct input image. For more information, type: ip_api --help"<<endl;
         return -1;
     }
 
     //Opeartions (commands)
-    region tmp; //This is the current region resulting from the sequence of operations
     for (int i=2;i<argc;++i){
-
         if (strcmp(argv[i],"DISPLAY_IMAGE")==0){
-            if(!img.display_image()){
+            if(!ip.displayImage()){
                 cout<<"Error: cannot display image"<<endl;
                 return -1;
             }
@@ -86,30 +85,28 @@ int cl_interface::clParser(int argc, char *argv[]){
                 cout<<"Error: One of the parameters is not an integer"<<endl;
                 return -1;
             }
-            tmp=image_process::find_region(img,pixel(x,y),sens);
+            ip.findRegion(pixel(x,y),sens);
 
         } else if (strcmp(argv[i],"FIND_PERIMETER")==0){
-            tmp=image_process::find_perimeter(tmp);
+            ip.findPerimeter();
 
         } else if (strcmp(argv[i],"DISPLAY_PIXELS")==0){
-            img.display_pixels(tmp);
+            ip.displayPixels();
 
         } else if (strcmp(argv[i],"SAVE_PIXELS")==0){
             if (i+1>=argc){
                 cout<<"Error: Not enough parameter for SAVE_PIXELS (usage: SAVE_PIXELS filename)"<<endl;
                 return -1;
             }
-            img.save_pixels(tmp,argv[i+1]);
+            ip.savePixels(argv[i+1]);
 
         } else if (strcmp(argv[i],"FIND_SMOOTH_PERIMETER")==0){
             double smooth_tol;
             if (stringToDouble(argv[i+1],smooth_tol)){
-                tmp=tmp.smooth(smooth_tol);
+                ip.findSmoothPerimeter(smooth_tol);
+            }else{
+                ip.findSmoothPerimeter();
             }
-            tmp=tmp.smooth();
-            tmp=image_process::find_perimeter(tmp);
-
-
         }
     }
 

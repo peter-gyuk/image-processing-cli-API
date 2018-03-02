@@ -24,7 +24,7 @@ The input_image is necessary, this is the initial image for which the list of op
 
 There are several operations that can be performed on the initial image consecutively:
 
-**FIND_REGION x y sens** - Finds a region of similar pixels starting from pixel (x,y) using the given sensitivity (sens). The sensitivity means the color distance in hsv color space. By increasing this parameter, the algorithm becomes more "tolerant" possibly filling bigger areas. Setting this value to 0 results in only 1 point of region: (x,y), setting it to 1 results in finding only the same color.
+**FIND_REGION x y sens** - Finds a region of similar pixels starting from pixel (x,y) using the given sensitivity (sens). The sensitivity means the color distance in HSV color space. By increasing this parameter, the algorithm becomes more "tolerant" possibly filling bigger areas. Setting this value to 0 results in only 1 point of region: (x,y), setting it to 1 results in finding only the same color.
 
 **FIND_PERIMETER** - Finds the contiguous border pixels of the region. No additional parameters needed. This is performed on the previous region. It is possible to find more regions and then the perimeter, but in this phase this only works for 1 convex object.
 
@@ -50,13 +50,13 @@ ip_api data/test3.png FIND_REGION 100 100 1 FIND_SMOOTH_PERIMETER 0.05 SAVE_PIXE
 
 ## Classes
 
-**cli_interface** - responsible for the CLI interactions
+**cli_interface** - responsible for the CLI interactions with error handling
 
 **image** - stores the input image and performs operations with it
 
-**image_process** - static class including find_region and find_perimeter functions
+**image_process** - responsible for processing the whole sequence of operations on the initial image, implements the operations
 
-**pixel** - the representation of one pixel without color with some helper function (step to right, up, left, down)
+**pixel** - the representation of one pixel without color with some helper function (step to right, up, left, down), the class can be extended to increase color depth
 
 **region** - a set of pixels and functions
 
@@ -66,5 +66,5 @@ For the backtracking algorithm to find a region starting from the given middle p
 
 For finding perimeter, the Bug Following algorithm was used with backtracking, as an own implementation. I tried to use algorithms that I have learned and already used before. These are maybe less effective (other edge detection algorithms could be used, like Canny), but the implementation was more straightforward and also avoided using complex libraries.
 
-For smoothing, I also implemented an own 2D discrete convolution. I used Gaussian blur as a basic solution, where I chose the 5x5 kernel. Other methods, such as spline, curve fitting could be used, but I have the experience with this method. The approximated 5x5 Gaussian kernel is taken from here:
+For smoothing, I also implemented an own 2D discrete convolution. I used Gaussian blur as a basic solution, where I chose the 5x5 kernel. Other methods, such as spline, curve fitting could be used, but I have the experience with this method. It would be also a good improvement to use some kind of noise reduction convolution to eliminate small object (e.g. the small dots on test3.png), like Median or Outlier filtering. The approximated 5x5 Gaussian kernel is taken from here:
 [https://homepages.inf.ed.ac.uk/rbf/HIPR2/gsmooth.htm](https://homepages.inf.ed.ac.uk/rbf/HIPR2/gsmooth.htm)

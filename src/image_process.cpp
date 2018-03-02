@@ -16,25 +16,59 @@ void image_process::walk(region &area, image img, pixel loc, int sens){
     }
 }
 
+//---Loads the initial image
+bool image_process::loadImage(string filename)
+{
+    if (!img.loadImage(filename)){
+        return false;
+    }
+    return true;
+}
+
+//---Implements DISPLAY_IMAGE operation
+bool image_process::displayImage()
+{
+    if(!img.displayImage()){
+        return false;
+    }
+    return true;
+}
+
 //---Implements FIND_REGION operation
-region image_process::find_region(image img, const pixel &location, int sensitivity)
+void image_process::findRegion(pixel location, int sensitivity)
 {
     region area;
 
+    if (sensitivity==0) area.addPixel(location);
+    else walk(area,img,location,sensitivity);
 
-    if (sensitivity==0){
-        area.addPixel(location);
-        return area;
-    }
-
-    walk(area,img,location,sensitivity);
-
-    return area;
+    tmp=area;
 }
 
-//--Implements FIND_PERIMETER operation
-region image_process::find_perimeter(region area)
+
+//---Implements FIND_PERIMETER operation
+void image_process::findPerimeter()
 {
-    return area.perimeter();
+    tmp=tmp.perimeter();
 }
+
+//---Implements FIND_SMOOTH_PERIMETER operation
+void image_process::findSmoothPerimeter(double smooth_tol)
+{
+    tmp=tmp.smooth(smooth_tol);
+    findPerimeter();
+}
+
+//---Implements DISPLAY_PIXELS operation
+void image_process::displayPixels()
+{
+    img.displayPixels(tmp);
+}
+
+//---Implements SAVE_PIXELS operation
+void image_process::savePixels(const string &filename)
+{
+    img.savePixels(tmp,filename);
+}
+
 

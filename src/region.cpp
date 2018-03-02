@@ -5,7 +5,7 @@ set<pixel> region::getArea() const
     return _area;
 }
 
-//---Converts the area into a matrix of logical values (1-foreground, 0-background)
+//---Converts the area into a matrix of logical values (1-foreground, 0-background) - 1-bit monochrome
 vector<vector<bool>> region::convertToLogicalImage(int &shift_x, int &shift_y)
 {
     //Calculate dimensions

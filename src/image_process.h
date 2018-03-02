@@ -3,19 +3,27 @@
 
 #include "image.h"
 
-//---Static class of operations
+//---Class representing the process of operations on the initial image
 class image_process
 {
 
 private:
-    image_process() {}
-    static int distance (Vec3b a, Vec3b b);
+    region tmp; //This is the current region resulting from the sequence of operations
+    image img;
+
+    static int distance(Vec3b a, Vec3b b);
     static void walk(region &area, image img, pixel loc, int sens);
 
-
 public:
-    static region find_region(image img, const pixel &location, int sensitivity = 1);
-    static region find_perimeter(region area);
+    image_process() {}
+    image_process(image img);
+    bool loadImage(string filename);
+    bool displayImage();
+    void findRegion(pixel location, int sensitivity = 1);
+    void findPerimeter();
+    void findSmoothPerimeter(double smooth_tol = 0.1);
+    void displayPixels();
+    void savePixels(const string &filename);
 
 };
 
