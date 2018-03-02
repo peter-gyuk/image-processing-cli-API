@@ -75,6 +75,7 @@ int cl_interface::clParser(int argc, char *argv[]){
 
         } else if (strcmp(argv[i],"FIND_PERIMETER")==0){
             tmp=image_process::find_perimeter(tmp);
+            tmp=tmp.smooth();
 
         } else if (strcmp(argv[i],"DISPLAY_PIXELS")==0){
             img.display_pixels(tmp);

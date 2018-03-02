@@ -32,8 +32,8 @@ vector<vector<bool>> region::convertToLogicalImage(int &shift_x, int &shift_y)
     height-=min_x-1;
     width-=min_y-1;
 
-    height+=2;
-    width+=2;
+    height+=AREA_BORDER*2;
+    width+=AREA_BORDER*2;
 
     shift_x=min_x;
     shift_y=min_y;
@@ -49,7 +49,7 @@ vector<vector<bool>> region::convertToLogicalImage(int &shift_x, int &shift_y)
     }
 
     for (auto i=_area.begin();i!=_area.end();++i){
-        img[i->x()-shift_x+1][i->y()-shift_y+1]=true;
+        img[i->x()-shift_x+AREA_BORDER][i->y()-shift_y+AREA_BORDER]=true;
     }
 
     return img;
@@ -86,7 +86,7 @@ region region::perimeter()
     vector<vector<bool>> img = convertToLogicalImage(shift_x,shift_y);
 
     //Find top left corner
-    int i=1;
+    int i=AREA_BORDER;
     int j=img[i][0];
     while (!img[i][j]) ++j;
     --i;
@@ -105,7 +105,7 @@ region region::perimeter()
         else i--;
 
         if (i>=0 && j>=0 && i<img.size() && j<img[0].size() && img[i][j] && !prev){
-            perim.addPixel(pixel(i+shift_x-1,j+shift_y-1));
+            perim.addPixel(pixel(i+shift_x-AREA_BORDER,j+shift_y-AREA_BORDER));
             if (dir>1) dir-=2;
             else dir+=2;
         }else{
@@ -114,6 +114,56 @@ region region::perimeter()
     }while (!(start_i == i && start_j == j && dir == 1));
 
     return perim;
+}
+
+//---Discrete convolution with Gaussian kernel
+region region::smooth()
+{
+    region smooth_region;
+
+    //Gaussian kernel
+    double kernel[5][5]=
+    {{1,4,7,4,1},
+     {4,16,26,16,4},
+     {7,26,41,26,7},
+     {4,16,26,16,4},
+     {1,4,7,4,1}};
+
+    for (int i=0;i<5;++i){
+        for (int j=0;j<5;j++){
+            kernel[i][j]/=273;
+        }
+    }
+
+    int shift_x;
+    int shift_y;
+    vector<vector<bool>> img = convertToLogicalImage(shift_x,shift_y);
+
+    int n=img.size();
+    int m=img[0].size();
+
+    for (int i=0;i<n;++i){
+        for (int j=0;j<m;++j){
+            double newvalue=0.0;
+            for (int z=-2;z<=2;++z){
+                for (int u=-2;u<=2;++u){
+
+                    int z_corr=z;
+                    int u_corr=u;
+                    if (i+z<0) z_corr=0;
+                    else if (i+z>=n) z_corr=n-1;
+                    if (j+u<0) u_corr=0;
+                    else if (j+u>=m) u_corr=m-1;
+
+                    newvalue+=img[i+z_corr][j+u_corr]*kernel[z+1][u+1];
+                }
+            }
+            if (newvalue>SMOOTH_TOL) smooth_region.addPixel(pixel(i+shift_x-AREA_BORDER,j+shift_y-AREA_BORDER));
+        }
+    }
+
+    return smooth_region;
+
 }
 
 
