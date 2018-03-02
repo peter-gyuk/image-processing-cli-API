@@ -14,6 +14,8 @@ class region
 private:
     set<pixel> _area;
 
+    vector<vector<bool>> convertToLogicalImage(int &shift_x, int &shift_y);
+
 public:
     region(){}
     region(const set<pixel>& area);

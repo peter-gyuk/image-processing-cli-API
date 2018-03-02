@@ -12,4 +12,5 @@ add_test(test1 ip_api data/test1.png)
 add_test(test_region ip_api data/test1.png FIND_REGION 58 125 1)
 add_test(test_region_show ip_api data/test1.png DISPLAY_IMAGE FIND_REGION 58 125 1 DISPLAY_PIXELS)
 add_test(test_region_perimeter ip_api data/test1.png FIND_REGION 58 125 1 FIND_PERIMETER SAVE_PIXELS out.png)
+add_test(test_region_perimeter_2 ip_api data/test2.png FIND_REGION 150 100 1 FIND_PERIMETER SAVE_PIXELS out2.png)
 
