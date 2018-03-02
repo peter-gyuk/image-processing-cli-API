@@ -1,41 +1,6 @@
 #include "image.h"
 
-image::image()
-{
-
-}
-
-bool image::load_image(string img_file)
-{
-    img = imread(img_file);
-
-    if (!img.data) {
-        return false;
-    }
-
-    return true;
-}
-
-bool image::display_image(string window_name)
-{
-    if (img.empty()){
-        return false;
-    }
-
-    namedWindow(window_name);
-    imshow(window_name, img);
-    return true;
-}
-
-
-Vec3b image::pixelColor(pixel p)
-{
-    Mat hsv;
-    cvtColor(img,hsv,cv::COLOR_RGB2HSV);
-    Vec3b c = hsv.at<Vec3b>(Point(p.y(),p.x()));
-    return c;
-}
-
+//---Creates and overlay of black region over the original image
 Mat image::overlay_region(region area)
 {
     Mat img2=img;
@@ -50,15 +15,49 @@ Mat image::overlay_region(region area)
     return img2;
 }
 
-void image::display_pixels(region area)
+//---Load image from file
+bool image::load_image(string img_file)
+{
+    img = imread(img_file);
+
+    if (!img.data) {
+        return false;
+    }
+
+    return true;
+}
+
+//---Diplay loaded image
+bool image::display_image(string window_name)
+{
+    if (img.empty()){
+        return false;
+    }
+
+    namedWindow(window_name);
+    imshow(window_name, img);
+    return true;
+}
+
+//---Returns the color of a pixel in HSV color space
+Vec3b image::pixelColor(pixel p)
+{
+    Mat hsv;
+    cvtColor(img,hsv,cv::COLOR_RGB2HSV);
+    Vec3b c = hsv.at<Vec3b>(Point(p.y(),p.x()));
+    return c;
+}
+
+//--Displays the region over the image
+void image::display_pixels(region area, string window_name)
 {
     Mat img2=overlay_region(area);
 
-    namedWindow("DISPLAY_PIXELS");
-    imshow("DISPLAY_PIXELS", img2);
+    namedWindow(window_name);
+    imshow(window_name, img2);
 }
 
-
+//--Saves the region over the image
 void image::save_pixels(region area, string filename)
 {
     Mat img2=overlay_region(area);

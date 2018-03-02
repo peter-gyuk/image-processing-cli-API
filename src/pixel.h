@@ -5,7 +5,7 @@
 
 using namespace std;
 
-//Pixel class, were the coordinates are integer (could be template class later)
+//---Pixel class stores the coordinates
 class pixel{
 
 private:

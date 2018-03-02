@@ -3,9 +3,11 @@
 
 #include "pixel.h"
 #include <set>
+#include <algorithm>
 
 using namespace std;
 
+//---Stores and handles a region of pixels
 class region
 {
 
@@ -13,14 +15,16 @@ private:
     set<pixel> _area;
 
 public:
-    region();
-    region(set<pixel> area);
+    region(){}
+    region(const set<pixel>& area);
 
-    set<pixel> getArea() const;
-    void setArea(const set<pixel> &value);
+    bool containsPixel(const pixel& p);
+    region perimeter();
 
     void addPixel(const pixel &p);
     bool isEmpty();
+
+    set<pixel> getArea() const;
 };
 
 #endif // REGION_H

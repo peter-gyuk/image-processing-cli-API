@@ -32,6 +32,12 @@ DISPLAY_PIXELS - Displays the image of the region overlay on the original image 
 
 SAVE_PIXELS filename - Saves the image of the region after the previous operations as an overlay in color black on the initial image in the given file
 
+# Testing
+
+To run test, simply type ctest or make test after compiling.
+
+New tests can be added to the CMakeLists.txt file.
+
 
 # Classes
 

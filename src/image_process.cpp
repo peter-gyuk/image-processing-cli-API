@@ -1,14 +1,13 @@
 #include "image_process.h"
 
-//Calculate the color distance in hsv color space
+//---Calculates the color distance in hsv color space
 int image_process::distance (Vec3b a, Vec3b b){
     return min(abs(a(0)-b(0)),180-abs(a(0)-b(0)));
 }
 
-//Recursive backtrack flood fill
+//---Recursive backtrack flood fill
 void image_process::walk(region &area, image img, pixel loc, int sens){
-    set<pixel> reg=area.getArea();
-    if (find(reg.begin(),reg.end(),loc)==reg.end()){
+    if (area.containsPixel(loc)){
         area.addPixel(loc);
         if ((loc.y()-1>=0) && (distance(img.pixelColor(loc),img.pixelColor(loc.left()))<sens)) walk(area,img,loc.left(),sens);
         if ((loc.y()+1<=img.width()-1) && (distance(img.pixelColor(loc),img.pixelColor(loc.right()))<sens)) walk(area,img,loc.right(),sens);
@@ -17,6 +16,7 @@ void image_process::walk(region &area, image img, pixel loc, int sens){
     }
 }
 
+//---Implements FIND_REGION operation
 region image_process::find_region(image img, const pixel &location, int sensitivity)
 {
     region area;
@@ -32,40 +32,9 @@ region image_process::find_region(image img, const pixel &location, int sensitiv
     return area;
 }
 
+//--Implements FIND_PERIMETER operation
 region image_process::find_perimeter(region area)
 {
-    set<pixel> reg=area.getArea();
-    region perim;
-
-    //Sides
-    pixel prev=pixel(-1,-1);
-    for (auto i=reg.begin();i!=reg.end();++i){
-        if (i->x()!=prev.x()){
-            perim.addPixel(*i);
-            perim.addPixel(prev);
-        }
-        prev=*i;
-    }
-
-    //Last row
-    for (auto i=reg.begin();i!=reg.end();++i){
-        if (i->x()==prev.x()){
-            perim.addPixel(*i);
-        }
-    }
-
-    //First row
-    auto i=reg.begin();
-    prev=*i;
-    perim.addPixel(prev);
-    ++i;
-    while (i!=reg.end() && i->x()==prev.x()){
-        perim.addPixel(*i);
-        prev=*i;
-        ++i;
-    }
-
-
-    return perim;
+    return area.perimeter();
 }
 
