@@ -36,9 +36,9 @@ void cl_interface::help(){
     cout<<"\t input_image - initial image for which the list of operations should be performed"<<endl;
     cout<<"\t <operation> - list of operations with arguments"<<endl<<endl;
     cout<<"There are seversal operations that can be performed on the initial image consecutively:"<<endl;
-    cout<<"FIND_REGION x y sens \t Finds a region of similar pixels starting from pixel (x,y) using the given sensitivity (sens)"<<endl;
+    cout<<"FIND_REGION x y [sens] \t Finds a region of similar pixels starting from pixel (x,y) using the given sensitivity (sens is optional, 1 by default)"<<endl;
     cout<<"FIND_PERIMETER\t\t Finds the contiguous border pixels of the region"<<endl;
-    cout<<"FIND_SMOOTH_PERIMETER [tolerance]\t\t Finds a smotth perimeter of the region using Gaussian blur with tolerance (default tolerance is 0.1)"<<endl;
+    cout<<"FIND_SMOOTH_PERIMETER [tolerance]\t\t Finds a smooth perimeter of the region using Gaussian blur with tolerance (default tolerance is 0.1)"<<endl;
     cout<<"DISPLAY_IMAGE\t\t Displays the input image"<<endl;
     cout<<"DISPLAY_PIXELS\t\t Displays the image of the region after the previous operations on the initial image"<<endl;
     cout<<"SAVE_PIXELS filename \t Saves the image of the region after the previous operations on the initial image"<<endl;
@@ -81,11 +81,15 @@ int cl_interface::clParser(int argc, char *argv[]){
                 return -1;
             }
             int x,y,sens;
-            if (!(stringToInt(argv[i+1],x) && stringToInt(argv[i+2],y) && stringToInt(argv[i+3],sens))){
-                cout<<"Error: One of the parameters is not an integer"<<endl;
+            if (!(stringToInt(argv[i+1],x) && stringToInt(argv[i+2],y))){
+                cout<<"Error: One of the coordinated for FIND_REGION is not an integer"<<endl;
                 return -1;
             }
-            ip.findRegion(pixel(x,y),sens);
+            if (stringToInt(argv[i+3],sens)){
+                ip.findRegion(pixel(x,y),sens);
+            }else{
+                ip.findRegion(pixel(x,y));
+            }
 
         } else if (strcmp(argv[i],"FIND_PERIMETER")==0){
             ip.findPerimeter();

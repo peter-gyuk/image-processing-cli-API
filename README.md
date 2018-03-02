@@ -24,7 +24,7 @@ The input_image is necessary, this is the initial image for which the list of op
 
 There are several operations that can be performed on the initial image consecutively:
 
-**FIND_REGION x y sens** - Finds a region of similar pixels starting from pixel (x,y) using the given sensitivity (sens). The sensitivity means the color distance in HSV color space. By increasing this parameter, the algorithm becomes more "tolerant" possibly filling bigger areas. Setting this value to 0 results in only 1 point of region: (x,y), setting it to 1 results in finding only the same color.
+**FIND_REGION x y [sens]** - Finds a region of similar pixels starting from pixel (x,y) using the given sensitivity (sens). The sensitivity, which is optional, means the color distance in HSV color space (1 by default). By increasing this parameter, the algorithm becomes more "tolerant" possibly filling bigger areas. Setting this value to 0 results in only 1 point of region: (x,y), setting it to 1 results in finding only the same color.
 
 **FIND_PERIMETER** - Finds the contiguous border pixels of the region. No additional parameters needed. This is performed on the previous region. It is possible to find more regions and then the perimeter, but in this phase this only works for 1 convex object.
 
