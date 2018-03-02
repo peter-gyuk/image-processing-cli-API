@@ -117,7 +117,7 @@ region region::perimeter()
 }
 
 //---Discrete convolution with Gaussian kernel
-region region::smooth()
+region region::smooth(double smooth_tol)
 {
     region smooth_region;
 
@@ -151,14 +151,14 @@ region region::smooth()
                     int z_corr=z;
                     int u_corr=u;
                     if (i+z<0) z_corr=0;
-                    else if (i+z>=n) z_corr=n-1;
+                    else if (i+z>=n) z_corr=n-i-1;
                     if (j+u<0) u_corr=0;
-                    else if (j+u>=m) u_corr=m-1;
+                    else if (j+u>=m) u_corr=m-j-1;
 
-                    newvalue+=img[i+z_corr][j+u_corr]*kernel[z+1][u+1];
+                    newvalue+=img[i+z_corr][j+u_corr]*kernel[z+2][u+2];
                 }
             }
-            if (newvalue>SMOOTH_TOL) smooth_region.addPixel(pixel(i+shift_x-AREA_BORDER,j+shift_y-AREA_BORDER));
+            if (newvalue>smooth_tol) smooth_region.addPixel(pixel(i+shift_x-AREA_BORDER,j+shift_y-AREA_BORDER));
         }
     }
 

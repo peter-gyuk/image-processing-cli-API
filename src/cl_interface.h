@@ -11,6 +11,7 @@ private:
     cl_interface(){}
 
     static bool stringToInt(const string &s, int &num);
+    static bool stringToDouble(const string &s, double &num);
     static void help();
 public:
     static int clParser(int argc, char *argv[]);

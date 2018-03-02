@@ -14,6 +14,20 @@ bool cl_interface::stringToInt(const string &s, int &num){
     return true;
 }
 
+//---Converts string to double with error handling
+bool cl_interface::stringToDouble(const string &s, double &num){
+
+    stringstream ss (s);
+    ss >> num;
+
+    if(ss.fail())
+    {
+        return false;
+    }
+
+    return true;
+}
+
 //---Help message display
 void cl_interface::help(){
 
@@ -24,6 +38,7 @@ void cl_interface::help(){
     cout<<"There are seversal operations that can be performed on the initial image consecutively:"<<endl;
     cout<<"FIND_REGION x y sens \t Finds a region of similar pixels starting from pixel (x,y) using the given sensitivity (sens)"<<endl;
     cout<<"FIND_PERIMETER\t\t Finds the contiguous border pixels of the region"<<endl;
+    cout<<"FIND_SMOOTH_PERIMETER [tolerance]\t\t Finds a smotth perimeter of the region using Gaussian blur with tolerance (default tolerance is 0.1)"<<endl;
     cout<<"DISPLAY_IMAGE\t\t Displays the input image"<<endl;
     cout<<"DISPLAY_PIXELS\t\t Displays the image of the region after the previous operations on the initial image"<<endl;
     cout<<"SAVE_PIXELS filename \t Saves the image of the region after the previous operations on the initial image"<<endl;
@@ -75,7 +90,6 @@ int cl_interface::clParser(int argc, char *argv[]){
 
         } else if (strcmp(argv[i],"FIND_PERIMETER")==0){
             tmp=image_process::find_perimeter(tmp);
-            tmp=tmp.smooth();
 
         } else if (strcmp(argv[i],"DISPLAY_PIXELS")==0){
             img.display_pixels(tmp);
@@ -86,6 +100,15 @@ int cl_interface::clParser(int argc, char *argv[]){
                 return -1;
             }
             img.save_pixels(tmp,argv[i+1]);
+
+        } else if (strcmp(argv[i],"FIND_SMOOTH_PERIMETER")==0){
+            double smooth_tol;
+            if (stringToDouble(argv[i+1],smooth_tol)){
+                tmp=tmp.smooth(smooth_tol);
+            }
+            tmp=tmp.smooth();
+            tmp=image_process::find_perimeter(tmp);
+
 
         }
     }

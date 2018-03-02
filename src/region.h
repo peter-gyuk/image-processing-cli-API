@@ -4,10 +4,8 @@
 #include "pixel.h"
 #include <set>
 #include <algorithm>
-#include <iostream>
 
 #define AREA_BORDER 1 //Background border around the region when converting to logical image
-#define SMOOTH_TOL 0.1
 
 using namespace std;
 
@@ -26,7 +24,7 @@ public:
 
     bool containsPixel(const pixel& p);
     region perimeter();
-    region smooth();
+    region smooth(double smooth_tol=0.1);
 
     void addPixel(const pixel &p);
     bool isEmpty();

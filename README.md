@@ -10,7 +10,7 @@ make
 '''
 Example:
 '''
-./ip_api test1.png DISPLAY_IMAGE FIND_REGION 150 50 5 FIND_PERIMETER DISPLAY_PIXELS
+./ip_api data/test1.png DISPLAY_IMAGE FIND_REGION 150 50 5 FIND_PERIMETER DISPLAY_PIXELS
 '''
 
 ## How to use
@@ -28,6 +28,8 @@ There are several operations that can be performed on the initial image consecut
 
 **FIND_PERIMETER** - Finds the contiguous border pixels of the region. No additional parameters needed. This is performed on the previous region. It is possible to find more regions and then the perimeter, but in this phase this only works for 1 convex object.
 
+**FIND_SMOOTH_PERIMETER [tolerance]** - Finds the contiguous border pixels of the smoothed region. The tolerance is an optional parameter, which is 0.1 by default. Decrease tolerance to to remove small artifacts, jagged contours. The algorithm uses discrete convolution with Gaussian blur kernel of kernel size 5.
+
 **DISPLAY_IMAGE** - Displays the input image without any operations
 
 **DISPLAY_PIXELS** - Displays the image of the region overlay on the original image after the previous operations
@@ -40,6 +42,11 @@ To run test, simply type ctest or make test after compiling.
 
 New tests can be added to the CMakeLists.txt file.
 
+*Smoothing* - The results of smoothing can be easily seen with running a smooth perimeter finder on test3.png with 0.1 and then 0.05 tolerance. The latter totally removes the small object inside:
+'''
+ip_api data/test3.png FIND_REGION 100 100 1 FIND_SMOOTH_PERIMETER 0.2 SAVE_PIXELS out_smooth_2.png
+ip_api data/test3.png FIND_REGION 100 100 1 FIND_SMOOTH_PERIMETER 0.05 SAVE_PIXELS out_smooth_05.png
+'''
 
 ## Classes
 
@@ -55,4 +62,9 @@ New tests can be added to the CMakeLists.txt file.
 
 ## References
 
-For the backtracking algorithm, I haven't used any references, implemented it on my own.
+For the backtracking algorithm to find a region, I haven't used any references, implemented it on my own. The recursive method is not very effective, it can be later improved using dynamic programming.
+
+For finding perimeter, the Bug Following algorithm was used with backtracking, as an own implementation.
+
+For smoothing, I also implemented an own discrete convolution, the approximated 5x5 Gaussian kernel is taken from here:
+[https://homepages.inf.ed.ac.uk/rbf/HIPR2/gsmooth.htm](https://homepages.inf.ed.ac.uk/rbf/HIPR2/gsmooth.htm)
